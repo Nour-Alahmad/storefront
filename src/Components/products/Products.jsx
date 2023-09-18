@@ -8,7 +8,9 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { activateCategory } from "../../store/categories";
+import { addToCart,removeFromCart } from "../../store/cart";
 import { connect } from "react-redux";
+import { useState } from 'react';
 
 
 
@@ -21,6 +23,15 @@ const Products =(props)=> {
 
 console.log( props.myProducets)
 console.log( props.selectedCategory)
+// const [quantity, setQuantity] = useState(0);
+function clickHandler(item) {
+  // setQuantity(quantity+1);
+
+  props.addToCart(
+    {name:item.name})
+
+
+}
 
   return (
     <div>
@@ -29,7 +40,7 @@ console.log( props.selectedCategory)
     <Grid container spacing={4}>
       { props.myProducets.map((card) => (
 
-    card.category === props.selectedCategory ? ( <Grid item key={card.id} xs={12} sm={6} md={4}>
+         card.category === props.selectedCategory ? ( <Grid item key={card.id} xs={12} sm={6} md={4}>
           <Card
             sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
           >
@@ -52,7 +63,8 @@ console.log( props.selectedCategory)
             </CardContent>
             <CardActions>
               <Button size="small">View Details</Button>
-              <Button size="small">Add To Cart</Button>
+             
+              <Button onClick={()=>clickHandler(card)} size="small">Add To Cart</Button>
             </CardActions>
           </Card>
         </Grid>) : null
@@ -72,6 +84,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   activateCategory,
+  removeFromCart,
+  addToCart
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);
